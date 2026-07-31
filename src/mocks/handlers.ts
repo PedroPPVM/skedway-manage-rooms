@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw'
+import type { Room } from '../types'
 
-const rooms = [
+const rooms: Room[] = [
   {
     id: '1',
     name: 'Sala Orion',
