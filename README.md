@@ -71,4 +71,5 @@ export default defineConfig([
   },
 ])
 ```
+
 # skedway-manage-rooms
