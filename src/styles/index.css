@@ -1,0 +1,5 @@
+/* Import order matters: tailwindcss first, tokens before theme. */
+@import 'tailwindcss';
+@import './tokens.css';
+@import './theme.css';
+@import './base.css';
