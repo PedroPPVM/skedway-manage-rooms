@@ -16,4 +16,11 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    cursor: not-allowed;
+  }
 }
