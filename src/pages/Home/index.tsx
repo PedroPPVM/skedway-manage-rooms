@@ -1,21 +1,17 @@
-import { ThemeToggle } from '../../components/ui/ThemeToggle'
+import { AppLayout } from '../../components/layout'
 
 function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center gap-4 bg-surface px-6 text-center">
-      <div className="absolute top-4 right-4">
-        <ThemeToggle />
+    <AppLayout>
+      <div className="flex flex-col items-center gap-4 py-24 text-center">
+        <h1 className="text-4xl font-bold text-foreground">
+          Gerenciamento de Salas
+        </h1>
+        <p className="max-w-md text-lg text-muted-foreground">
+          Bem-vindo ao projeto.
+        </p>
       </div>
-      <span className="text-sm font-semibold tracking-widest text-primary uppercase">
-        Skedway
-      </span>
-      <h1 className="text-4xl font-bold text-foreground">
-        Gerenciamento de Salas
-      </h1>
-      <p className="max-w-md text-lg text-muted-foreground">
-        Bem-vindo ao projeto.
-      </p>
-    </main>
+    </AppLayout>
   )
 }
 
