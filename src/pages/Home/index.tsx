@@ -12,7 +12,7 @@ function Home() {
   const { data: rooms, isPending, isError, refetch } = useRooms()
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex min-h-0 flex-1 flex-col gap-4">
       <div className="flex items-baseline justify-between gap-2">
         <h1 className="text-2xl font-bold text-foreground">
           {t('rooms.title')}
@@ -24,39 +24,44 @@ function Home() {
         )}
       </div>
 
-      {isPending && (
-        <div role="status" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <span className="sr-only">{t('rooms.loading')}</span>
-          {Array.from({ length: SKELETON_COUNT }, (_, index) => (
-            <RoomCardSkeleton key={index} />
-          ))}
-        </div>
-      )}
-
-      {isError && (
-        <ErrorState
-          title={t('rooms.error.title')}
-          description={t('rooms.error.description')}
-          onRetry={() => refetch()}
-        />
-      )}
-
-      {rooms &&
-        (rooms.length === 0 ? (
-          <EmptyState
-            icon={Inbox}
-            title={t('rooms.empty.title')}
-            description={t('rooms.empty.description')}
-          />
-        ) : (
-          <ul className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {rooms.map((room) => (
-              <li key={room.id}>
-                <RoomCard room={room} />
-              </li>
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        {isPending && (
+          <div
+            role="status"
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <span className="sr-only">{t('rooms.loading')}</span>
+            {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+              <RoomCardSkeleton key={index} />
             ))}
-          </ul>
-        ))}
+          </div>
+        )}
+
+        {isError && (
+          <ErrorState
+            title={t('rooms.error.title')}
+            description={t('rooms.error.description')}
+            onRetry={() => refetch()}
+          />
+        )}
+
+        {rooms &&
+          (rooms.length === 0 ? (
+            <EmptyState
+              icon={Inbox}
+              title={t('rooms.empty.title')}
+              description={t('rooms.empty.description')}
+            />
+          ) : (
+            <ul className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {rooms.map((room) => (
+                <li key={room.id}>
+                  <RoomCard room={room} />
+                </li>
+              ))}
+            </ul>
+          ))}
+      </div>
     </div>
   )
 }
