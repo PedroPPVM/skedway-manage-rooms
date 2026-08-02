@@ -79,6 +79,17 @@ describe('Home (rooms listing)', () => {
     expect(screen.getByTestId('query-string')).toHaveTextContent('q=pegaso')
   })
 
+  it('filters by people count typed in the capacity input', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(<Home />)
+    await screen.findByText('Sala Orion', undefined, { timeout: 3000 })
+
+    await user.type(screen.getByLabelText('Capacidade mínima'), '16')
+
+    expect(await screen.findByText('3 de 10 salas')).toBeInTheDocument()
+    expect(screen.queryByText('Sala Vega')).not.toBeInTheDocument()
+  })
+
   it('applies filters from the url on first render', async () => {
     renderWithProviders(<Home />, {
       initialEntries: ['/?capacity=16&resources=tv'],
