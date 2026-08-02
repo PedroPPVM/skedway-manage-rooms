@@ -1,4 +1,8 @@
 @layer base {
+  html {
+    scrollbar-color: var(--border) transparent;
+  }
+
   body {
     background-color: var(--surface);
     color: var(--foreground);

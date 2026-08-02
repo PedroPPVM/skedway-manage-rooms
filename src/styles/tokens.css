@@ -1,4 +1,6 @@
 :root {
+  color-scheme: light;
+
   /* surfaces */
   --surface: #f7faf9;
   --surface-elevated: #ffffff;
@@ -29,6 +31,8 @@
 }
 
 .dark {
+  color-scheme: dark;
+
   /* surfaces */
   --surface: #0e1613;
   --surface-elevated: #16211d;
