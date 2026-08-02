@@ -1,7 +1,8 @@
 {
   "common": {
     "close": "Fechar",
-    "closeNotification": "Fechar notificação"
+    "closeNotification": "Fechar notificação",
+    "backToTop": "Voltar ao topo"
   },
   "theme": {
     "activateLight": "Ativar tema claro",

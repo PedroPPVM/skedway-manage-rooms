@@ -1,7 +1,8 @@
 {
   "common": {
     "close": "Close",
-    "closeNotification": "Close notification"
+    "closeNotification": "Close notification",
+    "backToTop": "Back to top"
   },
   "theme": {
     "activateLight": "Switch to light theme",
