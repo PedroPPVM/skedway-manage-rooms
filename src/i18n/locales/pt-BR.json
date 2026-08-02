@@ -23,6 +23,33 @@
   "user": {
     "signOut": "Sair"
   },
+  "rooms": {
+    "title": "Salas de reunião",
+    "count_one": "{{count}} sala",
+    "count_other": "{{count}} salas",
+    "capacity_one": "{{count}} pessoa",
+    "capacity_other": "{{count}} pessoas",
+    "loading": "Carregando salas...",
+    "empty": {
+      "title": "Nenhuma sala encontrada",
+      "description": "Não há salas cadastradas no momento."
+    },
+    "error": {
+      "title": "Erro ao carregar as salas",
+      "description": "Não foi possível buscar os dados. Tente novamente."
+    },
+    "status": {
+      "available": "Disponível",
+      "occupied": "Ocupada"
+    },
+    "resources": {
+      "tv": "TV",
+      "video_conference": "Videoconferência",
+      "whiteboard": "Quadro branco",
+      "projector": "Projetor",
+      "air_conditioning": "Ar-condicionado"
+    }
+  },
   "language": {
     "label": "Idioma",
     "pt-BR": "Português (Brasil)",

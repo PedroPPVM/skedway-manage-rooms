@@ -23,6 +23,33 @@
   "user": {
     "signOut": "Salir"
   },
+  "rooms": {
+    "title": "Salas de reuniones",
+    "count_one": "{{count}} sala",
+    "count_other": "{{count}} salas",
+    "capacity_one": "{{count}} persona",
+    "capacity_other": "{{count}} personas",
+    "loading": "Cargando salas...",
+    "empty": {
+      "title": "Ninguna sala encontrada",
+      "description": "No hay salas registradas por el momento."
+    },
+    "error": {
+      "title": "Error al cargar las salas",
+      "description": "No fue posible obtener los datos. Inténtelo de nuevo."
+    },
+    "status": {
+      "available": "Disponible",
+      "occupied": "Ocupada"
+    },
+    "resources": {
+      "tv": "TV",
+      "video_conference": "Videoconferencia",
+      "whiteboard": "Pizarra",
+      "projector": "Proyector",
+      "air_conditioning": "Aire acondicionado"
+    }
+  },
   "language": {
     "label": "Idioma",
     "pt-BR": "Português (Brasil)",
