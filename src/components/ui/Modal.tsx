@@ -1,9 +1,10 @@
 import { X } from 'lucide-react'
-import { useEffect, useId, useRef } from 'react'
-import type { MouseEvent, PropsWithChildren, SyntheticEvent } from 'react'
+import { useId } from 'react'
+import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils'
 import { Button } from './Button'
+import { useNativeDialog } from './use-native-dialog'
 
 interface ModalProps extends PropsWithChildren {
   open: boolean
@@ -20,42 +21,18 @@ export function Modal({
   children,
 }: ModalProps) {
   const { t } = useTranslation()
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const { dialogRef, handleCancel, handleBackdropClick } = useNativeDialog(
+    open,
+    onClose,
+  )
   const titleId = useId()
-
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-
-    if (open && !dialog.open) dialog.showModal()
-    if (!open && dialog.open) dialog.close()
-  }, [open])
-
-  useEffect(() => {
-    if (!open) return
-
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
-
-  // preventDefault keeps the open state owned by React instead of the browser
-  const handleCancel = (event: SyntheticEvent<HTMLDialogElement>) => {
-    event.preventDefault()
-    onClose()
-  }
-
-  const handleClick = (event: MouseEvent<HTMLDialogElement>) => {
-    if (event.target === dialogRef.current) onClose()
-  }
 
   return (
     <dialog
       ref={dialogRef}
       aria-labelledby={titleId}
       onCancel={handleCancel}
-      onClick={handleClick}
+      onClick={handleBackdropClick}
       className={cn(
         'm-auto w-full max-w-md rounded-lg border border-border bg-surface-elevated p-0 text-foreground shadow-lg backdrop:bg-black/50',
         className,
