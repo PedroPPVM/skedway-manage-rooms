@@ -1,4 +1,5 @@
 import { CheckCircle2, Info, X, XCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import type { Toast, ToastVariant } from '../../contexts/toast/toast-context'
 import { cn } from '../../utils'
 
@@ -14,6 +15,8 @@ interface ToastViewportProps {
 }
 
 export function ToastViewport({ toasts, onDismiss }: ToastViewportProps) {
+  const { t } = useTranslation()
+
   return (
     <div
       role="status"
@@ -37,7 +40,7 @@ export function ToastViewport({ toasts, onDismiss }: ToastViewportProps) {
             <button
               type="button"
               onClick={() => onDismiss(toast.id)}
-              aria-label="Fechar notificação"
+              aria-label={t('common.closeNotification')}
               className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-surface-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
               <X size={16} aria-hidden="true" />

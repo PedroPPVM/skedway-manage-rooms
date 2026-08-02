@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { ThemeToggle } from '../ui'
+import { LanguageSwitcher, ThemeToggle } from '../ui'
 
 export function AppLayout({ children }: PropsWithChildren) {
   return (
@@ -9,7 +9,10 @@ export function AppLayout({ children }: PropsWithChildren) {
           <span className="text-sm font-semibold tracking-widest text-primary uppercase">
             Skedway
           </span>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6">

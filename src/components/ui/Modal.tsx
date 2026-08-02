@@ -1,6 +1,7 @@
 import { X } from 'lucide-react'
 import { useEffect, useId, useRef } from 'react'
 import type { MouseEvent, PropsWithChildren, SyntheticEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '../../utils'
 import { Button } from './Button'
 
@@ -18,6 +19,7 @@ export function Modal({
   className,
   children,
 }: ModalProps) {
+  const { t } = useTranslation()
   const dialogRef = useRef<HTMLDialogElement>(null)
   const titleId = useId()
 
@@ -67,7 +69,7 @@ export function Modal({
           variant="ghost"
           size="sm"
           onClick={onClose}
-          aria-label="Fechar"
+          aria-label={t('common.close')}
           className="px-2"
         >
           <X size={18} aria-hidden="true" />

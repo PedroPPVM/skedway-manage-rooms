@@ -1,0 +1,24 @@
+{
+  "common": {
+    "close": "Cerrar",
+    "closeNotification": "Cerrar notificación"
+  },
+  "theme": {
+    "activateLight": "Activar tema claro",
+    "activateDark": "Activar tema oscuro"
+  },
+  "language": {
+    "label": "Idioma",
+    "pt-BR": "Português (Brasil)",
+    "en": "English",
+    "es": "Español"
+  },
+  "errors": {
+    "VALIDATION_ERROR": "Complete todos los campos.",
+    "ROOM_NOT_FOUND": "Sala no encontrada.",
+    "INVALID_DURATION": "La duración debe ser entre 30 minutos y 4 horas.",
+    "OUTSIDE_BUSINESS_HOURS": "Las reservas deben estar dentro del horario comercial (08:00 a 18:00).",
+    "TIME_CONFLICT": "Esta sala ya tiene una reserva en este horario.",
+    "unexpected": "Algo salió mal. Inténtelo de nuevo."
+  }
+}
