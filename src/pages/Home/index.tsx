@@ -1,8 +1,10 @@
-import { Inbox, Search, SearchX } from 'lucide-react'
+import { Inbox, Search, SearchX, SlidersHorizontal } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Badge,
   Button,
+  Drawer,
   EmptyState,
   ErrorState,
   Input,
@@ -23,6 +25,7 @@ function Home() {
   const { filters, setFilters, clearFilters } = useRoomFilters()
   const [searchText, setSearchText] = useState(filters.query)
   const [previousQuery, setPreviousQuery] = useState(filters.query)
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
   const debouncedSearch = useDebouncedValue(searchText, 300)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -84,8 +87,24 @@ function Home() {
             className="w-full pl-9"
           />
         </div>
+        <Button
+          variant="secondary"
+          onClick={() => setIsFiltersOpen(true)}
+          className="sm:hidden"
+        >
+          <SlidersHorizontal size={16} aria-hidden="true" />
+          {t('filters.open')}
+          {activeFilterCount > 0 && (
+            <Badge variant="accent">{activeFilterCount}</Badge>
+          )}
+        </Button>
         {hasActiveFilters && (
-          <Button variant="ghost" size="sm" onClick={handleClear}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClear}
+            className="max-sm:hidden"
+          >
             {t('filters.clear')}
           </Button>
         )}
@@ -150,6 +169,21 @@ function Home() {
         </div>
         <ScrollToTopButton targetRef={scrollRef} />
       </div>
+
+      <Drawer
+        open={isFiltersOpen}
+        onClose={() => setIsFiltersOpen(false)}
+        title={t('filters.title')}
+      >
+        <div className="flex flex-col gap-4">
+          <FiltersPanel filters={filters} onChange={setFilters} />
+          {hasActiveFilters && (
+            <Button variant="secondary" onClick={handleClear}>
+              {t('filters.clear')}
+            </Button>
+          )}
+        </div>
+      </Drawer>
     </div>
   )
 }
