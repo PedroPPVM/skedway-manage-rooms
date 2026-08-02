@@ -121,7 +121,7 @@ function Home() {
           {isPending && (
             <div
               role="status"
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4"
             >
               <span className="sr-only">{t('rooms.loading')}</span>
               {Array.from({ length: SKELETON_COUNT }, (_, index) => (
@@ -158,7 +158,7 @@ function Home() {
                 }
               />
             ) : (
-              <ul className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="grid list-none grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4">
                 {filteredRooms.map((room) => (
                   <li key={room.id}>
                     <RoomCard room={room} />

@@ -11,7 +11,7 @@ export function AppLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex h-dvh flex-col bg-surface">
       <header className="border-b border-border bg-surface-elevated">
-        <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-3 px-4 sm:px-6">
+        <div className="flex h-14 w-full items-center justify-between gap-3 px-4 sm:px-6">
           <span className="text-sm font-semibold tracking-widest text-primary uppercase">
             Skedway
           </span>
@@ -32,7 +32,7 @@ export function AppLayout({ children }: PropsWithChildren) {
           </div>
         </div>
       </header>
-      <main className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col overflow-hidden px-4 py-6 sm:px-6">
+      <main className="flex min-h-0 w-full flex-1 flex-col overflow-hidden px-4 py-6 sm:px-6">
         {children}
       </main>
     </div>
