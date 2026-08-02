@@ -7,6 +7,22 @@
     "activateLight": "Activar tema claro",
     "activateDark": "Activar tema oscuro"
   },
+  "login": {
+    "title": "Bienvenido a Skedway",
+    "subtitle": "Identifícate para gestionar las salas de reuniones.",
+    "name": "Nombre",
+    "namePlaceholder": "Ej.: Ana Souza",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "ana@empresa.com",
+    "submit": "Entrar",
+    "validation": {
+      "nameRequired": "Ingresa tu nombre (mínimo 2 caracteres).",
+      "emailInvalid": "Ingresa un correo electrónico válido."
+    }
+  },
+  "user": {
+    "signOut": "Salir"
+  },
   "language": {
     "label": "Idioma",
     "pt-BR": "Português (Brasil)",
