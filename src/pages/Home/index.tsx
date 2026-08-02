@@ -1,7 +1,6 @@
 import { Inbox } from 'lucide-react'
 import { useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { AppLayout } from '../../components/layout'
 import {
   Badge,
   Button,
@@ -22,7 +21,7 @@ function Home() {
   const toast = useToast()
 
   return (
-    <AppLayout>
+    <>
       <div className="flex flex-col gap-10">
         <Section title="Botões">
           <Button>Primary</Button>
@@ -142,7 +141,7 @@ function Home() {
           </div>
         </div>
       </Modal>
-    </AppLayout>
+    </>
   )
 }
 
