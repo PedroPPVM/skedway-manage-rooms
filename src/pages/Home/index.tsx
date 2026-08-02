@@ -71,8 +71,8 @@ function Home() {
         )}
       </div>
 
-      <div className="flex items-center gap-2">
-        <div className="relative flex-1 sm:max-w-xs">
+      <div className="flex flex-wrap items-end gap-3">
+        <div className="relative min-w-48 flex-1 sm:max-w-xs">
           <Search
             aria-hidden="true"
             size={16}
@@ -98,23 +98,22 @@ function Home() {
             <Badge variant="accent">{activeFilterCount}</Badge>
           )}
         </Button>
+        <FiltersPanel
+          filters={filters}
+          onChange={setFilters}
+          className="max-sm:hidden sm:contents"
+        />
         {hasActiveFilters && (
           <Button
             variant="ghost"
             size="sm"
             onClick={handleClear}
-            className="max-sm:hidden"
+            className="mb-1 max-sm:hidden"
           >
             {t('filters.clear')}
           </Button>
         )}
       </div>
-
-      <FiltersPanel
-        filters={filters}
-        onChange={setFilters}
-        className="max-sm:hidden"
-      />
 
       <div className="relative min-h-0 flex-1">
         <div ref={scrollRef} className="h-full overflow-y-auto">
