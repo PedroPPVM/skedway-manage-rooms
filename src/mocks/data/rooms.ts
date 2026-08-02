@@ -1,13 +1,12 @@
 import type { Room } from '../../types'
 
-export const rooms: Room[] = [
+export const rooms: Omit<Room, 'status'>[] = [
   {
     id: '1',
     name: 'Sala Orion',
     capacity: 12,
     location: '3º Andar',
     resources: ['tv', 'video_conference'],
-    status: 'available',
   },
   {
     id: '2',
@@ -15,7 +14,6 @@ export const rooms: Room[] = [
     capacity: 6,
     location: '2º Andar',
     resources: ['whiteboard'],
-    status: 'occupied',
   },
   {
     id: '3',
@@ -23,7 +21,6 @@ export const rooms: Room[] = [
     capacity: 4,
     location: '1º Andar',
     resources: ['tv'],
-    status: 'available',
   },
   {
     id: '4',
@@ -31,7 +28,6 @@ export const rooms: Room[] = [
     capacity: 8,
     location: '2º Andar',
     resources: ['video_conference', 'whiteboard', 'air_conditioning'],
-    status: 'available',
   },
   {
     id: '5',
@@ -39,7 +35,6 @@ export const rooms: Room[] = [
     capacity: 20,
     location: '4º Andar',
     resources: ['tv', 'video_conference', 'projector', 'air_conditioning'],
-    status: 'available',
   },
   {
     id: '6',
@@ -47,7 +42,6 @@ export const rooms: Room[] = [
     capacity: 10,
     location: '3º Andar',
     resources: ['projector', 'whiteboard'],
-    status: 'occupied',
   },
   {
     id: '7',
@@ -55,7 +49,6 @@ export const rooms: Room[] = [
     capacity: 2,
     location: '1º Andar',
     resources: [],
-    status: 'available',
   },
   {
     id: '8',
@@ -63,7 +56,6 @@ export const rooms: Room[] = [
     capacity: 16,
     location: '4º Andar',
     resources: ['tv', 'video_conference', 'air_conditioning'],
-    status: 'available',
   },
   {
     id: '9',
@@ -71,7 +63,6 @@ export const rooms: Room[] = [
     capacity: 6,
     location: '2º Andar',
     resources: ['whiteboard', 'projector'],
-    status: 'occupied',
   },
   {
     id: '10',
@@ -85,6 +76,5 @@ export const rooms: Room[] = [
       'air_conditioning',
       'whiteboard',
     ],
-    status: 'available',
   },
 ]

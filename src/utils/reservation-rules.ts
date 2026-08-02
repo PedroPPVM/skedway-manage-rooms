@@ -42,6 +42,23 @@ export function hasTimeConflict(
   })
 }
 
+export function isRoomOccupiedAt(
+  roomId: string,
+  reservations: Reservation[],
+  at: Date,
+): boolean {
+  const time = at.getTime()
+
+  return reservations.some((reservation) => {
+    if (reservation.roomId !== roomId) return false
+
+    return (
+      new Date(reservation.startAt).getTime() <= time &&
+      time < new Date(reservation.endAt).getTime()
+    )
+  })
+}
+
 export function isReservationOwner(
   reservation: Pick<Reservation, 'createdByEmail'>,
   email: string,
