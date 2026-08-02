@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom/vitest'
-import { beforeEach, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest'
 import i18n from './src/i18n'
+import { server } from './src/test/server'
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 // jsdom 29 does not implement HTMLDialogElement methods yet
 if (!HTMLDialogElement.prototype.showModal) {

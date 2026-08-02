@@ -1,156 +1,73 @@
 import { Inbox } from 'lucide-react'
-import { useState } from 'react'
-import type { PropsWithChildren } from 'react'
-import {
-  Badge,
-  Button,
-  Card,
-  EmptyState,
-  ErrorState,
-  Input,
-  Modal,
-  Select,
-  Skeleton,
-  Spinner,
-} from '../../components/ui'
-import { useToast } from '../../contexts/toast'
+import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { EmptyState, ErrorState, ScrollToTopButton } from '../../components/ui'
+import { useRooms } from '../../hooks'
+import { RoomCard } from './components/RoomCard'
+import { RoomCardSkeleton } from './components/RoomCardSkeleton'
 
-// Temporary showcase (PRD 002) — replaced by the rooms list in feat/rooms-list
+const SKELETON_COUNT = 6
+
 function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const toast = useToast()
+  const { t } = useTranslation()
+  const { data: rooms, isPending, isError, refetch } = useRooms()
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   return (
-    <>
-      <div className="flex flex-col gap-10">
-        <Section title="Botões">
-          <Button>Primary</Button>
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="ghost">Ghost</Button>
-          <Button variant="danger">Danger</Button>
-          <Button size="sm">Small</Button>
-          <Button disabled>Desabilitado</Button>
-          <Button isLoading>Carregando</Button>
-        </Section>
-
-        <Section title="Badges">
-          <Badge variant="success">Disponível</Badge>
-          <Badge variant="danger">Ocupada</Badge>
-          <Badge variant="warning">Aviso</Badge>
-          <Badge variant="neutral">TV</Badge>
-          <Badge variant="accent">Videoconferência</Badge>
-        </Section>
-
-        <Section title="Formulário">
-          <div className="grid w-full max-w-2xl gap-4 sm:grid-cols-2">
-            <Input label="Nome do responsável" placeholder="Ex.: Ana Souza" />
-            <Input
-              label="Com erro"
-              defaultValue="valor inválido"
-              error="Mensagem de erro do campo."
-            />
-            <Select label="Capacidade mínima" defaultValue="4">
-              <option value="2">2 pessoas</option>
-              <option value="4">4 pessoas</option>
-              <option value="8">8 pessoas</option>
-            </Select>
-            <Input label="Desabilitado" disabled placeholder="Sem edição" />
-          </div>
-        </Section>
-
-        <Section title="Modal e Toasts">
-          <Button variant="secondary" onClick={() => setIsModalOpen(true)}>
-            Abrir modal
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => toast.success('Reserva criada com sucesso.')}
-          >
-            Toast de sucesso
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() =>
-              toast.error('Esta sala já possui uma reserva neste horário.')
-            }
-          >
-            Toast de erro
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() =>
-              toast.info('As reservas seguem o horário comercial.')
-            }
-          >
-            Toast de info
-          </Button>
-        </Section>
-
-        <Section title="Loading">
-          <Spinner size="sm" />
-          <Spinner />
-          <Card className="w-64">
-            <Skeleton className="h-5 w-2/3" />
-            <Skeleton className="mt-2 h-4 w-1/3" />
-            <div className="mt-3 flex gap-2">
-              <Skeleton className="h-6 w-16 rounded-full" />
-              <Skeleton className="h-6 w-20 rounded-full" />
-            </div>
-          </Card>
-        </Section>
-
-        <Section title="Estados">
-          <div className="grid w-full gap-4 sm:grid-cols-2">
-            <EmptyState
-              icon={Inbox}
-              title="Nenhuma sala encontrada"
-              description="Ajuste os filtros ou limpe a pesquisa para ver resultados."
-              action={<Button variant="secondary">Limpar filtros</Button>}
-            />
-            <ErrorState
-              title="Erro ao carregar as salas"
-              description="Não foi possível buscar os dados. Tente novamente."
-              onRetry={() => toast.info('Tentando novamente...')}
-            />
-          </div>
-        </Section>
+    <div className="flex min-h-0 flex-1 flex-col gap-4">
+      <div className="flex items-baseline justify-between gap-2">
+        <h1 className="text-2xl font-bold text-foreground">
+          {t('rooms.title')}
+        </h1>
+        {rooms && (
+          <span className="text-sm text-muted-foreground">
+            {t('rooms.count', { count: rooms.length })}
+          </span>
+        )}
       </div>
 
-      <Modal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Nova reserva"
-      >
-        <div className="flex flex-col gap-4">
-          <Input label="Nome do responsável" placeholder="Ex.: Ana Souza" />
-          <p className="text-sm text-muted-foreground">
-            Conteúdo de exemplo — feche por Esc, clique fora ou no X.
-          </p>
-          <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
-              Cancelar
-            </Button>
-            <Button
-              onClick={() => {
-                setIsModalOpen(false)
-                toast.success('Ação confirmada no modal.')
-              }}
+      <div className="relative min-h-0 flex-1">
+        <div ref={scrollRef} className="h-full overflow-y-auto">
+          {isPending && (
+            <div
+              role="status"
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
             >
-              Confirmar
-            </Button>
-          </div>
-        </div>
-      </Modal>
-    </>
-  )
-}
+              <span className="sr-only">{t('rooms.loading')}</span>
+              {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+                <RoomCardSkeleton key={index} />
+              ))}
+            </div>
+          )}
 
-function Section({ title, children }: PropsWithChildren<{ title: string }>) {
-  return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-      <div className="flex flex-wrap items-center gap-3">{children}</div>
-    </section>
+          {isError && (
+            <ErrorState
+              title={t('rooms.error.title')}
+              description={t('rooms.error.description')}
+              onRetry={() => refetch()}
+            />
+          )}
+
+          {rooms &&
+            (rooms.length === 0 ? (
+              <EmptyState
+                icon={Inbox}
+                title={t('rooms.empty.title')}
+                description={t('rooms.empty.description')}
+              />
+            ) : (
+              <ul className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {rooms.map((room) => (
+                  <li key={room.id}>
+                    <RoomCard room={room} />
+                  </li>
+                ))}
+              </ul>
+            ))}
+        </div>
+        <ScrollToTopButton targetRef={scrollRef} />
+      </div>
+    </div>
   )
 }
 

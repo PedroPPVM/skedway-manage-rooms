@@ -1,7 +1,8 @@
 {
   "common": {
     "close": "Close",
-    "closeNotification": "Close notification"
+    "closeNotification": "Close notification",
+    "backToTop": "Back to top"
   },
   "theme": {
     "activateLight": "Switch to light theme",
@@ -22,6 +23,33 @@
   },
   "user": {
     "signOut": "Sign out"
+  },
+  "rooms": {
+    "title": "Meeting rooms",
+    "count_one": "{{count}} room",
+    "count_other": "{{count}} rooms",
+    "capacity_one": "{{count}} person",
+    "capacity_other": "{{count}} people",
+    "loading": "Loading rooms...",
+    "empty": {
+      "title": "No rooms found",
+      "description": "There are no rooms registered at the moment."
+    },
+    "error": {
+      "title": "Failed to load rooms",
+      "description": "We could not fetch the data. Try again."
+    },
+    "status": {
+      "available": "Available",
+      "occupied": "Occupied"
+    },
+    "resources": {
+      "tv": "TV",
+      "video_conference": "Video conference",
+      "whiteboard": "Whiteboard",
+      "projector": "Projector",
+      "air_conditioning": "Air conditioning"
+    }
   },
   "language": {
     "label": "Language",
