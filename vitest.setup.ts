@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest'
 import { beforeEach, vi } from 'vitest'
+import i18n from './src/i18n'
 
 // jsdom 29 does not implement HTMLDialogElement methods yet
 if (!HTMLDialogElement.prototype.showModal) {
@@ -26,6 +27,7 @@ export function createMatchMedia(matches: boolean) {
     }) as unknown as MediaQueryList
 }
 
-beforeEach(() => {
+beforeEach(async () => {
   window.matchMedia = createMatchMedia(false)
+  await i18n.changeLanguage('pt-BR')
 })
