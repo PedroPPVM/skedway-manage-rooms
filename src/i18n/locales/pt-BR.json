@@ -35,6 +35,8 @@
     "INVALID_DURATION": "A duração deve ser entre 30 minutos e 4 horas.",
     "OUTSIDE_BUSINESS_HOURS": "As reservas devem estar dentro do horário comercial (08:00 às 18:00).",
     "TIME_CONFLICT": "Esta sala já possui uma reserva neste horário.",
+    "RESERVATION_NOT_FOUND": "Reserva não encontrada.",
+    "NOT_RESERVATION_OWNER": "Apenas quem criou a reserva pode cancelá-la.",
     "unexpected": "Algo deu errado. Tente novamente."
   }
 }

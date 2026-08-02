@@ -35,6 +35,8 @@
     "INVALID_DURATION": "The duration must be between 30 minutes and 4 hours.",
     "OUTSIDE_BUSINESS_HOURS": "Reservations must be within business hours (08:00 to 18:00).",
     "TIME_CONFLICT": "This room already has a reservation at this time.",
+    "RESERVATION_NOT_FOUND": "Reservation not found.",
+    "NOT_RESERVATION_OWNER": "Only the person who created the reservation can cancel it.",
     "unexpected": "Something went wrong. Please try again."
   }
 }

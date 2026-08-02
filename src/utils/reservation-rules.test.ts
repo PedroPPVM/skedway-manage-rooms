@@ -19,6 +19,7 @@ function reservation(
     id: `reservation-${roomId}-${startHour}`,
     roomId,
     responsible: 'Ana Souza',
+    createdByEmail: 'ana.souza@example.com',
     startAt: at(startHour),
     endAt: at(endHour),
   }

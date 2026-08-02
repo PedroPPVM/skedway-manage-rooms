@@ -1,8 +1,12 @@
 import { delay, http, HttpResponse } from 'msw'
 import type { CreateReservationInput, Reservation } from '../types'
-import { toDateKey, validateReservation } from '../utils'
+import { isReservationOwner, toDateKey, validateReservation } from '../utils'
 import { rooms } from './data/rooms'
-import { getReservations, saveReservation } from './storage'
+import {
+  getReservations,
+  removeStoredReservation,
+  saveReservation,
+} from './storage'
 
 const RULE_ERROR_RESPONSES = {
   INVALID_DURATION: {
@@ -67,6 +71,7 @@ export const handlers = [
     if (
       !input.roomId ||
       !input.responsible?.trim() ||
+      !input.createdByEmail?.trim() ||
       !input.startAt ||
       !input.endAt
     ) {
@@ -94,5 +99,34 @@ export const handlers = [
     saveReservation(reservation)
 
     return HttpResponse.json(reservation, { status: 201 })
+  }),
+
+  http.delete('/api/reservations/:id', async ({ params, request }) => {
+    await delay(400)
+    const reservation = getReservations().find(
+      (candidate) => candidate.id === params.id,
+    )
+
+    if (!reservation) {
+      return HttpResponse.json(
+        { code: 'RESERVATION_NOT_FOUND', message: 'Reserva não encontrada.' },
+        { status: 404 },
+      )
+    }
+
+    const userEmail = request.headers.get('x-user-email') ?? ''
+
+    if (!isReservationOwner(reservation, userEmail)) {
+      return HttpResponse.json(
+        {
+          code: 'NOT_RESERVATION_OWNER',
+          message: 'Apenas quem criou a reserva pode cancelá-la.',
+        },
+        { status: 403 },
+      )
+    }
+
+    removeStoredReservation(reservation.id)
+    return new HttpResponse(null, { status: 204 })
   }),
 ]
