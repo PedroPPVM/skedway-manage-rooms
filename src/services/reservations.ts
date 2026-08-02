@@ -1,5 +1,5 @@
 import type { CreateReservationInput, Reservation } from '../types'
-import { apiGet, apiPost } from './http'
+import { apiDelete, apiGet, apiPost } from './http'
 
 export interface ReservationFilters {
   roomId?: string
@@ -21,4 +21,13 @@ export function createReservation(
   input: CreateReservationInput,
 ): Promise<Reservation> {
   return apiPost<Reservation>('/api/reservations', input)
+}
+
+// X-User-Email simulates the authenticated user a real backend would
+// read from the session token
+export function deleteReservation(
+  id: string,
+  userEmail: string,
+): Promise<void> {
+  return apiDelete(`/api/reservations/${id}`, { 'X-User-Email': userEmail })
 }

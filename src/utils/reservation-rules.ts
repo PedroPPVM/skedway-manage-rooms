@@ -42,6 +42,15 @@ export function hasTimeConflict(
   })
 }
 
+export function isReservationOwner(
+  reservation: Pick<Reservation, 'createdByEmail'>,
+  email: string,
+): boolean {
+  const owner = reservation.createdByEmail
+  if (!owner || !email) return false
+  return owner.toLowerCase() === email.toLowerCase()
+}
+
 export function validateReservation(
   candidate: ReservationPeriod,
   reservations: Reservation[],

@@ -7,6 +7,22 @@
     "activateLight": "Activar tema claro",
     "activateDark": "Activar tema oscuro"
   },
+  "login": {
+    "title": "Bienvenido a Skedway",
+    "subtitle": "Identifícate para gestionar las salas de reuniones.",
+    "name": "Nombre",
+    "namePlaceholder": "Ej.: Ana Souza",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "ana@empresa.com",
+    "submit": "Entrar",
+    "validation": {
+      "nameRequired": "Ingresa tu nombre (mínimo 2 caracteres).",
+      "emailInvalid": "Ingresa un correo electrónico válido."
+    }
+  },
+  "user": {
+    "signOut": "Salir"
+  },
   "language": {
     "label": "Idioma",
     "pt-BR": "Português (Brasil)",
@@ -19,6 +35,8 @@
     "INVALID_DURATION": "La duración debe ser entre 30 minutos y 4 horas.",
     "OUTSIDE_BUSINESS_HOURS": "Las reservas deben estar dentro del horario comercial (08:00 a 18:00).",
     "TIME_CONFLICT": "Esta sala ya tiene una reserva en este horario.",
+    "RESERVATION_NOT_FOUND": "Reserva no encontrada.",
+    "NOT_RESERVATION_OWNER": "Solo quien creó la reserva puede cancelarla.",
     "unexpected": "Algo salió mal. Inténtelo de nuevo."
   }
 }

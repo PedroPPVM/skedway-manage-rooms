@@ -7,6 +7,22 @@
     "activateLight": "Switch to light theme",
     "activateDark": "Switch to dark theme"
   },
+  "login": {
+    "title": "Welcome to Skedway",
+    "subtitle": "Identify yourself to manage the meeting rooms.",
+    "name": "Name",
+    "namePlaceholder": "E.g.: Ana Souza",
+    "email": "Email",
+    "emailPlaceholder": "ana@company.com",
+    "submit": "Sign in",
+    "validation": {
+      "nameRequired": "Enter your name (at least 2 characters).",
+      "emailInvalid": "Enter a valid email."
+    }
+  },
+  "user": {
+    "signOut": "Sign out"
+  },
   "language": {
     "label": "Language",
     "pt-BR": "Português (Brasil)",
@@ -19,6 +35,8 @@
     "INVALID_DURATION": "The duration must be between 30 minutes and 4 hours.",
     "OUTSIDE_BUSINESS_HOURS": "Reservations must be within business hours (08:00 to 18:00).",
     "TIME_CONFLICT": "This room already has a reservation at this time.",
+    "RESERVATION_NOT_FOUND": "Reservation not found.",
+    "NOT_RESERVATION_OWNER": "Only the person who created the reservation can cancel it.",
     "unexpected": "Something went wrong. Please try again."
   }
 }

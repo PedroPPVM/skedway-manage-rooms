@@ -2,6 +2,7 @@ import type { Reservation } from '../types'
 import {
   getDurationInMinutes,
   hasTimeConflict,
+  isReservationOwner,
   isWithinBusinessHours,
   validateReservation,
 } from './reservation-rules'
@@ -19,6 +20,7 @@ function reservation(
     id: `reservation-${roomId}-${startHour}`,
     roomId,
     responsible: 'Ana Souza',
+    createdByEmail: 'ana.souza@example.com',
     startAt: at(startHour),
     endAt: at(endHour),
   }
@@ -90,6 +92,28 @@ describe('hasTimeConflict', () => {
     expect(
       hasTimeConflict({ roomId: '1', startAt: at(9), endAt: at(10) }, existing),
     ).toBe(false)
+  })
+})
+
+describe('isReservationOwner', () => {
+  it('recognizes the owner ignoring email casing', () => {
+    const owned = reservation('1', 10, 12)
+
+    expect(isReservationOwner(owned, 'ana.souza@example.com')).toBe(true)
+    expect(isReservationOwner(owned, 'ANA.SOUZA@example.com')).toBe(true)
+  })
+
+  it('rejects a different email', () => {
+    expect(
+      isReservationOwner(reservation('1', 10, 12), 'outra@example.com'),
+    ).toBe(false)
+  })
+
+  it('rejects legacy reservations without owner and empty emails', () => {
+    expect(isReservationOwner({ createdByEmail: '' }, 'ana@example.com')).toBe(
+      false,
+    )
+    expect(isReservationOwner(reservation('1', 10, 12), '')).toBe(false)
   })
 })
 

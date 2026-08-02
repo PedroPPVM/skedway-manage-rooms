@@ -23,3 +23,11 @@ export function saveReservation(reservation: Reservation): void {
   const stored = getStoredReservations()
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...stored, reservation]))
 }
+
+export function removeStoredReservation(id: string): void {
+  const stored = getStoredReservations()
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(stored.filter((reservation) => reservation.id !== id)),
+  )
+}
