@@ -1,6 +1,11 @@
 import { delay, http, HttpResponse } from 'msw'
-import type { CreateReservationInput, Reservation } from '../types'
-import { isReservationOwner, toDateKey, validateReservation } from '../utils'
+import type { CreateReservationInput, Reservation, Room } from '../types'
+import {
+  isReservationOwner,
+  isRoomOccupiedAt,
+  toDateKey,
+  validateReservation,
+} from '../utils'
 import { rooms } from './data/rooms'
 import {
   getReservations,
@@ -24,10 +29,15 @@ const RULE_ERROR_RESPONSES = {
   },
 } as const
 
+function withStatus(room: Omit<Room, 'status'>): Room {
+  const occupied = isRoomOccupiedAt(room.id, getReservations(), new Date())
+  return { ...room, status: occupied ? 'occupied' : 'available' }
+}
+
 export const handlers = [
   http.get('/api/rooms', async () => {
     await delay(500)
-    return HttpResponse.json(rooms)
+    return HttpResponse.json(rooms.map(withStatus))
   }),
 
   http.get('/api/rooms/:id', async ({ params }) => {
@@ -40,7 +50,7 @@ export const handlers = [
         { status: 404 },
       )
     }
-    return HttpResponse.json(room)
+    return HttpResponse.json(withStatus(room))
   }),
 
   http.get('/api/reservations', async ({ request }) => {

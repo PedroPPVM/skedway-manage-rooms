@@ -3,6 +3,7 @@ import {
   getDurationInMinutes,
   hasTimeConflict,
   isReservationOwner,
+  isRoomOccupiedAt,
   isWithinBusinessHours,
   validateReservation,
 } from './reservation-rules'
@@ -92,6 +93,24 @@ describe('hasTimeConflict', () => {
     expect(
       hasTimeConflict({ roomId: '1', startAt: at(9), endAt: at(10) }, existing),
     ).toBe(false)
+  })
+})
+
+describe('isRoomOccupiedAt', () => {
+  const reservations = [reservation('1', 10, 12)]
+
+  it('detects occupancy inside the reservation window', () => {
+    expect(isRoomOccupiedAt('1', reservations, new Date(at(11)))).toBe(true)
+  })
+
+  it('includes the start boundary and excludes the end boundary', () => {
+    expect(isRoomOccupiedAt('1', reservations, new Date(at(10)))).toBe(true)
+    expect(isRoomOccupiedAt('1', reservations, new Date(at(12)))).toBe(false)
+  })
+
+  it('ignores reservations from other rooms and empty lists', () => {
+    expect(isRoomOccupiedAt('2', reservations, new Date(at(11)))).toBe(false)
+    expect(isRoomOccupiedAt('1', [], new Date(at(11)))).toBe(false)
   })
 })
 
