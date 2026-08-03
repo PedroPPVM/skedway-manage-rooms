@@ -34,7 +34,7 @@ export function Modal({
       onCancel={handleCancel}
       onClick={handleBackdropClick}
       className={cn(
-        'm-auto w-full max-w-md rounded-lg border border-border bg-surface-elevated p-0 text-foreground shadow-lg backdrop:bg-black/50',
+        'm-auto w-full max-w-md flex-col overflow-hidden rounded-lg border border-border bg-surface-elevated p-0 text-foreground shadow-lg backdrop:bg-black/50 open:flex',
         className,
       )}
     >
@@ -52,7 +52,9 @@ export function Modal({
           <X size={18} aria-hidden="true" />
         </Button>
       </div>
-      <div className="p-4">{children}</div>
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
+        {children}
+      </div>
     </dialog>
   )
 }

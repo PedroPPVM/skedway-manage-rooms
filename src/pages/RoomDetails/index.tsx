@@ -1,19 +1,30 @@
-import { MapPin, Users } from 'lucide-react'
+import { CalendarPlus, MapPin, Users } from 'lucide-react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Badge, ErrorState, Modal, Skeleton } from '../../components/ui'
+import { Badge, Button, ErrorState, Modal, Skeleton } from '../../components/ui'
 import { useRoom } from '../../hooks'
 import { ApiError } from '../../services/http'
 import { getApiErrorKey } from '../../i18n/api-errors'
+import { toDateKey } from '../../utils'
 import { DaySchedule } from './components/DaySchedule'
+import { ReservationForm } from './components/ReservationForm'
 
 function RoomDetails() {
   const { t } = useTranslation()
   const { id = '' } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
+  const [dateKey, setDateKey] = useState(() => toDateKey(new Date()))
+  const [view, setView] = useState<'schedule' | 'form'>('schedule')
+  const [formStartAt, setFormStartAt] = useState<string | null>(null)
 
   const { data: room, isPending, isError, error, refetch } = useRoom(id)
+
+  const openForm = (startAt: string | null) => {
+    setFormStartAt(startAt)
+    setView('form')
+  }
 
   const close = () => {
     navigate({ pathname: '/', search: location.search })
@@ -26,7 +37,7 @@ function RoomDetails() {
       open
       onClose={close}
       title={room?.name ?? t('roomDetails.title')}
-      className="max-w-xl"
+      className="max-w-xl max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none max-sm:border-none sm:h-[min(85dvh,44rem)]"
     >
       {isPending && (
         <div role="status" className="flex flex-col gap-3">
@@ -51,7 +62,7 @@ function RoomDetails() {
       )}
 
       {room && (
-        <div className="flex flex-col gap-4">
+        <div className="flex min-h-0 flex-1 flex-col gap-4">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <Badge variant={room.status === 'available' ? 'success' : 'danger'}>
               {t(`rooms.status.${room.status}`)}
@@ -76,7 +87,28 @@ function RoomDetails() {
             </div>
           )}
 
-          <DaySchedule roomId={room.id} roomName={room.name} />
+          {view === 'schedule' ? (
+            <>
+              <DaySchedule
+                roomId={room.id}
+                roomName={room.name}
+                dateKey={dateKey}
+                onDateKeyChange={setDateKey}
+                onReserveSlot={openForm}
+              />
+              <Button onClick={() => openForm(null)} className="w-full">
+                <CalendarPlus size={16} aria-hidden="true" />
+                {t('newReservation.open')}
+              </Button>
+            </>
+          ) : (
+            <ReservationForm
+              roomId={room.id}
+              initialDateKey={dateKey}
+              initialStartAt={formStartAt}
+              onBack={() => setView('schedule')}
+            />
+          )}
         </div>
       )}
     </Modal>

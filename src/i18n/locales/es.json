@@ -85,6 +85,28 @@
     "keep": "Mantener reserva",
     "canceled": "Reserva cancelada con éxito."
   },
+  "newReservation": {
+    "open": "Nueva reserva",
+    "title": "Nueva reserva",
+    "back": "Volver",
+    "responsible": "Nombre del responsable",
+    "responsiblePlaceholder": "Ej.: Ana Souza",
+    "date": "Fecha",
+    "startTime": "Hora de inicio",
+    "selectTime": "Selecciona un horario",
+    "duration": "Duración",
+    "reserve": "Reservar",
+    "submit": "Crear reserva",
+    "created": "Reserva creada con éxito.",
+    "noTimes": "Ningún horario libre en esta fecha.",
+    "durationMinutes": "{{count}} min",
+    "durationHours": "{{count}} h",
+    "durationHoursMinutes": "{{hours}} h {{minutes}} min",
+    "validation": {
+      "responsible": "Ingresa el responsable (mínimo 2 caracteres).",
+      "startTime": "Selecciona la hora de inicio."
+    }
+  },
   "language": {
     "label": "Idioma",
     "pt-BR": "Português (Brasil)",

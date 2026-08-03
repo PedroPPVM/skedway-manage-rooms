@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react'
+import { CalendarPlus, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -19,19 +19,26 @@ import {
   formatTime,
   isReservationOwner,
   parseDateKey,
-  toDateKey,
 } from '../../../utils'
 
 interface DayScheduleProps {
   roomId: string
   roomName: string
+  dateKey: string
+  onDateKeyChange: (dateKey: string) => void
+  onReserveSlot: (startAt: string) => void
 }
 
-export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
+export function DaySchedule({
+  roomId,
+  roomName,
+  dateKey,
+  onDateKeyChange,
+  onReserveSlot,
+}: DayScheduleProps) {
   const { t, i18n } = useTranslation()
   const { user } = useUser()
   const toast = useToast()
-  const [dateKey, setDateKey] = useState(() => toDateKey(new Date()))
   const [cancelTarget, setCancelTarget] = useState<Reservation | null>(null)
 
   const { data: reservations, isPending } = useReservations({
@@ -78,7 +85,7 @@ export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex min-h-0 flex-1 flex-col gap-3">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h3 className="text-base font-semibold text-foreground">
           {t('roomDetails.schedule')}
@@ -86,7 +93,7 @@ export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
         <DatePicker
           label={t('roomDetails.date')}
           value={dateKey}
-          onChange={setDateKey}
+          onChange={onDateKeyChange}
         />
       </div>
 
@@ -100,7 +107,7 @@ export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
       )}
 
       {schedule && (
-        <ul className="max-h-72 divide-y divide-border overflow-y-auto rounded-md border border-border">
+        <ul className="min-h-0 flex-1 divide-y divide-border overflow-y-auto rounded-md border border-border">
           {schedule.map((slot) => {
             const reservation = slot.reservation
             const ownedByUser =
@@ -133,6 +140,17 @@ export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
                     className="ml-auto px-2 text-danger hover:bg-danger/10"
                   >
                     <Trash2 size={16} aria-hidden="true" />
+                  </Button>
+                )}
+                {slot.status === 'free' && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onReserveSlot(slot.startAt)}
+                    className="ml-auto px-2 text-primary hover:bg-primary/10"
+                  >
+                    <CalendarPlus size={16} aria-hidden="true" />
+                    {t('newReservation.reserve')}
                   </Button>
                 )}
               </li>
