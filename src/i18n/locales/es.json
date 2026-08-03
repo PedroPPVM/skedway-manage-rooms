@@ -3,7 +3,9 @@
     "close": "Cerrar",
     "closeNotification": "Cerrar notificación",
     "backToTop": "Volver arriba",
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "dateFormat": "dd/mm/aaaa",
+    "openCalendar": "Abrir calendario"
   },
   "theme": {
     "activateLight": "Activar tema claro",

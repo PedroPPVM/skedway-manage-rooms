@@ -3,7 +3,9 @@
     "close": "Close",
     "closeNotification": "Close notification",
     "backToTop": "Back to top",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "dateFormat": "mm/dd/yyyy",
+    "openCalendar": "Open calendar"
   },
   "theme": {
     "activateLight": "Switch to light theme",

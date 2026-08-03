@@ -1,0 +1,7 @@
+.rdp-root {
+  --rdp-accent-color: var(--primary);
+  --rdp-accent-background-color: var(--surface-muted);
+  --rdp-today-color: var(--primary);
+  --rdp-font-family: inherit;
+  font-size: 0.875rem;
+}
