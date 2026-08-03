@@ -1,5 +1,5 @@
 import { CalendarPlus, MapPin, Users } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Badge, Button, ErrorState, Modal, Skeleton } from '../../components/ui'
@@ -18,8 +18,17 @@ function RoomDetails() {
   const [dateKey, setDateKey] = useState(() => toDateKey(new Date()))
   const [view, setView] = useState<'schedule' | 'form'>('schedule')
   const [formStartAt, setFormStartAt] = useState<string | null>(null)
+  const openFormButtonRef = useRef<HTMLButtonElement>(null)
+  const previousView = useRef(view)
 
   const { data: room, isPending, isError, error, refetch } = useRoom(id)
+
+  useEffect(() => {
+    if (view === 'schedule' && previousView.current === 'form') {
+      openFormButtonRef.current?.focus()
+    }
+    previousView.current = view
+  }, [view])
 
   const openForm = (startAt: string | null) => {
     setFormStartAt(startAt)
@@ -96,7 +105,11 @@ function RoomDetails() {
                 onDateKeyChange={setDateKey}
                 onReserveSlot={openForm}
               />
-              <Button onClick={() => openForm(null)} className="w-full">
+              <Button
+                ref={openFormButtonRef}
+                onClick={() => openForm(null)}
+                className="w-full"
+              >
                 <CalendarPlus size={16} aria-hidden="true" />
                 {t('newReservation.open')}
               </Button>

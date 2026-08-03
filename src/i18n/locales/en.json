@@ -63,6 +63,7 @@
     "resourcesPlaceholder": "Select resources",
     "onlyAvailable": "Only available rooms",
     "clear": "Clear filters",
+    "clearSearch": "Clear search",
     "open": "Filters",
     "title": "Filters",
     "results": "{{count}} of {{total}} rooms",

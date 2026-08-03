@@ -70,7 +70,7 @@ export function MultiSelect<T extends string>({
                 <ListboxOption
                   key={option.value}
                   value={option.value}
-                  className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground data-focus:bg-surface-muted"
+                  className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground data-focus:bg-surface-muted max-sm:py-2.5"
                 >
                   {({ selected }) => (
                     <>

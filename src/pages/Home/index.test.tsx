@@ -90,6 +90,23 @@ describe('Home (rooms listing)', () => {
     expect(screen.queryByText('Sala Vega')).not.toBeInTheDocument()
   })
 
+  it('clears the search from the persistent clear button', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(<Home />)
+    await screen.findByText('Sala Orion', undefined, { timeout: 3000 })
+
+    await user.type(screen.getByLabelText('Pesquisar sala'), 'pegaso')
+    expect(await screen.findByText('1 de 10 salas')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Limpar pesquisa' }))
+
+    expect(await screen.findByText('10 salas')).toBeInTheDocument()
+    expect(screen.getByLabelText('Pesquisar sala')).toHaveValue('')
+    expect(
+      screen.queryByRole('button', { name: 'Limpar pesquisa' }),
+    ).not.toBeInTheDocument()
+  })
+
   it('applies filters from the url on first render', async () => {
     renderWithProviders(<Home />, {
       initialEntries: ['/?capacity=16&resources=tv'],
