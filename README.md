@@ -4,6 +4,8 @@
 
 Aplicação para gerenciamento de salas de reunião: encontre a sala certa, consulte a agenda do dia e reserve em poucos cliques — com dark mode, três idiomas e acessibilidade de ponta a ponta.
 
+**Demo:** [skedway-manage-rooms.vercel.app](https://skedway-manage-rooms.vercel.app/)
+
 ## Funcionalidades
 
 - **Identificação** por nome e email (a posse das reservas é rastreada pelo email)
@@ -109,6 +111,28 @@ Convenções: o design system segue os **princípios de composição do Atomic D
 
 - **122 testes** co-locados, exercitando a API simulada de verdade (servidor MSW nos testes com os handlers reais) e testando **comportamento e acessibilidade** — nunca classes CSS.
 - **Relógio determinístico**: `vi.useFakeTimers({ toFake: ['Date'] })` congela apenas o `Date` (o status derivado depende da hora), mantendo timers reais para os delays da API.
+
+## Retrospectiva
+
+### O que eu faria diferente com mais tempo?
+
+- **"Minhas reservas"**: uma visão única com todas as reservas do usuário logado, sem precisar navegar sala a sala.
+- **CRUD completo de salas**: a análise já está mapeada — armazenamento com overlay sobre os dados de demonstração, política de exclusão (bloquear quando houver reservas futuras × cascata) e os papéis de administrador que essa feature exigiria.
+- **Animações**: micro-interações de entrada/saída dos modais (o caminho CSS com `@starting-style` está descrito nas limitações) e, se a interação crescesse, uma biblioteca como Motion para animações de layout.
+- **Backend real**: substituir o MSW por uma API de verdade — o contrato já está definido pelos handlers e a troca seria transparente para o front.
+
+### Qual foi a parte mais desafiadora?
+
+A internacionalização de verdade, que eu ainda não tinha enfrentado em um projeto real de mercado. Ela vai muito além de traduzir strings: envolveu chaves tipadas (chave inexistente vira erro de compilação), pluralização, mensagens de erro da API mapeadas por código e — a parte mais dura — **datas**: formatação, ordem dos campos e parsing derivados do `Intl` conforme o idioma ativo, o que acabou exigindo construir um DatePicker próprio quando o input nativo se mostrou preso ao locale do sistema operacional.
+
+### Que melhorias eu faria pensando em milhares de usuários?
+
+- **Dashboard** com gráficos e indicadores sobre salas e reservas (ocupação, horários de pico, salas mais disputadas).
+- **Autenticação completa** e um sistema de **permissões** com papéis (administrador × usuário).
+- **CRUD também para os recursos** das salas, hoje fixos.
+- **Integração com calendários** — Google Calendar e equivalentes de outras empresas — para a reserva aparecer automaticamente na agenda do usuário.
+- **Notificações por email/WhatsApp** sobre as reservas (confirmação, lembrete, cancelamento).
+- **Novos status de sala guiados por pesquisa com potenciais usuários** — por exemplo "em manutenção", que se encaixa no modelo atual como estado administrativo separado da ocupação temporal (que é calculada, nunca armazenada).
 
 ## Limitações conhecidas
 
