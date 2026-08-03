@@ -51,6 +51,23 @@
       "air_conditioning": "Air conditioning"
     }
   },
+  "filters": {
+    "searchPlaceholder": "Search room by name...",
+    "searchLabel": "Search room",
+    "capacity": "Minimum capacity",
+    "capacityPlaceholder": "E.g.: 8",
+    "resources": "Resources",
+    "resourcesPlaceholder": "Select resources",
+    "onlyAvailable": "Only available rooms",
+    "clear": "Clear filters",
+    "open": "Filters",
+    "title": "Filters",
+    "results": "{{count}} of {{total}} rooms",
+    "noResults": {
+      "title": "No rooms match the filters",
+      "description": "Adjust the search or clear the filters to see more rooms."
+    }
+  },
   "language": {
     "label": "Language",
     "pt-BR": "Português (Brasil)",

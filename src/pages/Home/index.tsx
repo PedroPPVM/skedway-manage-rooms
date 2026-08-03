@@ -1,17 +1,57 @@
-import { Inbox } from 'lucide-react'
-import { useRef } from 'react'
+import { Inbox, Search, SearchX, SlidersHorizontal } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { EmptyState, ErrorState, ScrollToTopButton } from '../../components/ui'
-import { useRooms } from '../../hooks'
+import {
+  Badge,
+  Button,
+  Drawer,
+  EmptyState,
+  ErrorState,
+  Input,
+  ScrollToTopButton,
+} from '../../components/ui'
+import { useDebouncedValue, useRooms } from '../../hooks'
+import { countActiveRoomFilters, filterRooms } from '../../utils'
+import { FiltersPanel } from './components/FiltersPanel'
 import { RoomCard } from './components/RoomCard'
 import { RoomCardSkeleton } from './components/RoomCardSkeleton'
+import { useRoomFilters } from './useRoomFilters'
 
 const SKELETON_COUNT = 6
 
 function Home() {
   const { t } = useTranslation()
   const { data: rooms, isPending, isError, refetch } = useRooms()
+  const { filters, setFilters, clearFilters } = useRoomFilters()
+  const [searchText, setSearchText] = useState(filters.query)
+  const [previousQuery, setPreviousQuery] = useState(filters.query)
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
+  const debouncedSearch = useDebouncedValue(searchText, 300)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Syncs the input when the URL changes from outside (back/forward, clear)
+  if (filters.query !== previousQuery) {
+    setPreviousQuery(filters.query)
+    setSearchText(filters.query)
+  }
+
+  useEffect(() => {
+    if (debouncedSearch === filters.query) return
+    if (debouncedSearch !== searchText) return
+    setFilters({ query: debouncedSearch })
+  }, [debouncedSearch, filters.query, searchText, setFilters])
+
+  const filteredRooms = useMemo(
+    () => (rooms ? filterRooms(rooms, filters) : undefined),
+    [rooms, filters],
+  )
+  const activeFilterCount = countActiveRoomFilters(filters)
+  const hasActiveFilters = activeFilterCount > 0 || filters.query.trim() !== ''
+
+  const handleClear = () => {
+    setSearchText('')
+    clearFilters()
+  }
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-4">
@@ -19,10 +59,59 @@ function Home() {
         <h1 className="text-2xl font-bold text-foreground">
           {t('rooms.title')}
         </h1>
-        {rooms && (
+        {rooms && filteredRooms && (
           <span className="text-sm text-muted-foreground">
-            {t('rooms.count', { count: rooms.length })}
+            {hasActiveFilters
+              ? t('filters.results', {
+                  count: filteredRooms.length,
+                  total: rooms.length,
+                })
+              : t('rooms.count', { count: rooms.length })}
           </span>
+        )}
+      </div>
+
+      <div className="flex flex-wrap items-end gap-3">
+        <div className="relative min-w-48 flex-1 sm:max-w-xs">
+          <Search
+            aria-hidden="true"
+            size={16}
+            className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
+          <Input
+            type="search"
+            aria-label={t('filters.searchLabel')}
+            placeholder={t('filters.searchPlaceholder')}
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+            className="w-full pl-9"
+          />
+        </div>
+        <Button
+          variant="secondary"
+          onClick={() => setIsFiltersOpen(true)}
+          className="sm:hidden"
+        >
+          <SlidersHorizontal size={16} aria-hidden="true" />
+          {t('filters.open')}
+          {activeFilterCount > 0 && (
+            <Badge variant="accent">{activeFilterCount}</Badge>
+          )}
+        </Button>
+        <FiltersPanel
+          filters={filters}
+          onChange={setFilters}
+          className="max-sm:hidden sm:contents"
+        />
+        {hasActiveFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClear}
+            className="mb-1 max-sm:hidden"
+          >
+            {t('filters.clear')}
+          </Button>
         )}
       </div>
 
@@ -31,7 +120,7 @@ function Home() {
           {isPending && (
             <div
               role="status"
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4"
             >
               <span className="sr-only">{t('rooms.loading')}</span>
               {Array.from({ length: SKELETON_COUNT }, (_, index) => (
@@ -49,15 +138,27 @@ function Home() {
           )}
 
           {rooms &&
+            filteredRooms &&
             (rooms.length === 0 ? (
               <EmptyState
                 icon={Inbox}
                 title={t('rooms.empty.title')}
                 description={t('rooms.empty.description')}
               />
+            ) : filteredRooms.length === 0 ? (
+              <EmptyState
+                icon={SearchX}
+                title={t('filters.noResults.title')}
+                description={t('filters.noResults.description')}
+                action={
+                  <Button variant="secondary" onClick={handleClear}>
+                    {t('filters.clear')}
+                  </Button>
+                }
+              />
             ) : (
-              <ul className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {rooms.map((room) => (
+              <ul className="grid list-none grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4">
+                {filteredRooms.map((room) => (
                   <li key={room.id}>
                     <RoomCard room={room} />
                   </li>
@@ -67,6 +168,21 @@ function Home() {
         </div>
         <ScrollToTopButton targetRef={scrollRef} />
       </div>
+
+      <Drawer
+        open={isFiltersOpen}
+        onClose={() => setIsFiltersOpen(false)}
+        title={t('filters.title')}
+      >
+        <div className="flex flex-col gap-4">
+          <FiltersPanel filters={filters} onChange={setFilters} />
+          {hasActiveFilters && (
+            <Button variant="secondary" onClick={handleClear}>
+              {t('filters.clear')}
+            </Button>
+          )}
+        </div>
+      </Drawer>
     </div>
   )
 }

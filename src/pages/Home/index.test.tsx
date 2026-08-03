@@ -1,9 +1,15 @@
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
+import { useSearchParams } from 'react-router-dom'
 import { renderWithProviders } from '../../test/render'
 import { server } from '../../test/server'
 import Home from '.'
+
+function LocationProbe() {
+  const [searchParams] = useSearchParams()
+  return <div data-testid="query-string">{searchParams.toString()}</div>
+}
 
 // Only Date is faked (10:30 today): Sala Orion has a 10:00-11:00 seed
 // reservation, so derived statuses stay deterministic while MSW delays
@@ -53,6 +59,63 @@ describe('Home (rooms listing)', () => {
     expect(
       await screen.findByText('Nenhuma sala encontrada'),
     ).toBeInTheDocument()
+  })
+
+  it('searches by name ignoring accents and syncs the url', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(
+      <>
+        <Home />
+        <LocationProbe />
+      </>,
+    )
+    await screen.findByText('Sala Orion', undefined, { timeout: 3000 })
+
+    await user.type(screen.getByLabelText('Pesquisar sala'), 'pegaso')
+
+    expect(await screen.findByText('1 de 10 salas')).toBeInTheDocument()
+    expect(screen.getByText('Sala Pégaso')).toBeInTheDocument()
+    expect(screen.queryByText('Sala Orion')).not.toBeInTheDocument()
+    expect(screen.getByTestId('query-string')).toHaveTextContent('q=pegaso')
+  })
+
+  it('filters by people count typed in the capacity input', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(<Home />)
+    await screen.findByText('Sala Orion', undefined, { timeout: 3000 })
+
+    await user.type(screen.getByLabelText('Capacidade mínima'), '16')
+
+    expect(await screen.findByText('3 de 10 salas')).toBeInTheDocument()
+    expect(screen.queryByText('Sala Vega')).not.toBeInTheDocument()
+  })
+
+  it('applies filters from the url on first render', async () => {
+    renderWithProviders(<Home />, {
+      initialEntries: ['/?capacity=16&resources=tv'],
+    })
+
+    expect(await screen.findByText('3 de 10 salas')).toBeInTheDocument()
+    expect(screen.getByText('Sala Pégaso')).toBeInTheDocument()
+    expect(screen.getByText('Auditório Centauri')).toBeInTheDocument()
+    expect(screen.queryByText('Sala Vega')).not.toBeInTheDocument()
+  })
+
+  it('shows the filtered empty state and clears filters from it', async () => {
+    const user = userEvent.setup()
+    renderWithProviders(<Home />, { initialEntries: ['/?q=inexistente'] })
+
+    const emptyTitle = await screen.findByText(
+      'Nenhuma sala corresponde aos filtros',
+    )
+    const emptyState = emptyTitle.closest('div')!
+
+    await user.click(
+      within(emptyState).getByRole('button', { name: 'Limpar filtros' }),
+    )
+
+    expect(await screen.findByText('10 salas')).toBeInTheDocument()
+    expect(screen.getByText('Sala Orion')).toBeInTheDocument()
   })
 
   it('shows the error state and recovers on retry', async () => {

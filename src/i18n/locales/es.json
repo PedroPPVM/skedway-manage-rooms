@@ -51,6 +51,23 @@
       "air_conditioning": "Aire acondicionado"
     }
   },
+  "filters": {
+    "searchPlaceholder": "Buscar sala por nombre...",
+    "searchLabel": "Buscar sala",
+    "capacity": "Capacidad mínima",
+    "capacityPlaceholder": "Ej.: 8",
+    "resources": "Recursos",
+    "resourcesPlaceholder": "Seleccionar recursos",
+    "onlyAvailable": "Solo salas disponibles",
+    "clear": "Limpiar filtros",
+    "open": "Filtros",
+    "title": "Filtros",
+    "results": "{{count}} de {{total}} salas",
+    "noResults": {
+      "title": "Ninguna sala coincide con los filtros",
+      "description": "Ajusta la búsqueda o limpia los filtros para ver más salas."
+    }
+  },
   "language": {
     "label": "Idioma",
     "pt-BR": "Português (Brasil)",
