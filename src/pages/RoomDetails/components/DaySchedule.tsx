@@ -85,7 +85,7 @@ export function DaySchedule({
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex min-h-0 flex-1 flex-col gap-3">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <h3 className="text-base font-semibold text-foreground">
           {t('roomDetails.schedule')}
@@ -107,7 +107,7 @@ export function DaySchedule({
       )}
 
       {schedule && (
-        <ul className="max-h-72 divide-y divide-border overflow-y-auto rounded-md border border-border">
+        <ul className="min-h-0 flex-1 divide-y divide-border overflow-y-auto rounded-md border border-border">
           {schedule.map((slot) => {
             const reservation = slot.reservation
             const ownedByUser =

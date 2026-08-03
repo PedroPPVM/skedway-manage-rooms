@@ -37,7 +37,7 @@ function RoomDetails() {
       open
       onClose={close}
       title={room?.name ?? t('roomDetails.title')}
-      className="max-w-xl"
+      className="max-w-xl max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none max-sm:border-none"
     >
       {isPending && (
         <div role="status" className="flex flex-col gap-3">
@@ -62,7 +62,7 @@ function RoomDetails() {
       )}
 
       {room && (
-        <div className="flex flex-col gap-4">
+        <div className="flex min-h-0 flex-1 flex-col gap-4">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <Badge variant={room.status === 'available' ? 'success' : 'danger'}>
               {t(`rooms.status.${room.status}`)}
