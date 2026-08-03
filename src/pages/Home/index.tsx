@@ -1,6 +1,7 @@
 import { Inbox, Search, SearchX, SlidersHorizontal } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import {
   Badge,
   Button,
@@ -21,6 +22,7 @@ const SKELETON_COUNT = 6
 
 function Home() {
   const { t } = useTranslation()
+  const location = useLocation()
   const { data: rooms, isPending, isError, refetch } = useRooms()
   const { filters, setFilters, clearFilters } = useRoomFilters()
   const [searchText, setSearchText] = useState(filters.query)
@@ -160,7 +162,15 @@ function Home() {
               <ul className="grid list-none grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4">
                 {filteredRooms.map((room) => (
                   <li key={room.id}>
-                    <RoomCard room={room} />
+                    <Link
+                      to={{
+                        pathname: `rooms/${room.id}`,
+                        search: location.search,
+                      }}
+                      className="block h-full rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    >
+                      <RoomCard room={room} />
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -183,6 +193,8 @@ function Home() {
           )}
         </div>
       </Drawer>
+
+      <Outlet />
     </div>
   )
 }

@@ -2,7 +2,8 @@
   "common": {
     "close": "Cerrar",
     "closeNotification": "Cerrar notificación",
-    "backToTop": "Volver arriba"
+    "backToTop": "Volver arriba",
+    "loading": "Cargando..."
   },
   "theme": {
     "activateLight": "Activar tema claro",
@@ -67,6 +68,20 @@
       "title": "Ninguna sala coincide con los filtros",
       "description": "Ajusta la búsqueda o limpia los filtros para ver más salas."
     }
+  },
+  "roomDetails": {
+    "title": "Detalles de la sala",
+    "date": "Fecha",
+    "schedule": "Agenda del día",
+    "slot": {
+      "free": "Libre",
+      "reserved": "Reservada"
+    },
+    "cancel": "Cancelar reserva",
+    "cancelTitle": "¿Cancelar reserva?",
+    "cancelDescription": "La reserva de {{time}} en la sala {{room}} será cancelada.",
+    "keep": "Mantener reserva",
+    "canceled": "Reserva cancelada con éxito."
   },
   "language": {
     "label": "Idioma",
