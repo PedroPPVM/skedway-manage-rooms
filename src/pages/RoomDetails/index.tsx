@@ -5,6 +5,7 @@ import { Badge, ErrorState, Modal, Skeleton } from '../../components/ui'
 import { useRoom } from '../../hooks'
 import { ApiError } from '../../services/http'
 import { getApiErrorKey } from '../../i18n/api-errors'
+import { DaySchedule } from './components/DaySchedule'
 
 function RoomDetails() {
   const { t } = useTranslation()
@@ -74,6 +75,8 @@ function RoomDetails() {
               ))}
             </div>
           )}
+
+          <DaySchedule roomId={room.id} />
         </div>
       )}
     </Modal>
