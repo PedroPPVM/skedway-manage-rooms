@@ -1,4 +1,4 @@
-import { Inbox, Search, SearchX, SlidersHorizontal } from 'lucide-react'
+import { Inbox, Search, SearchX, SlidersHorizontal, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router-dom'
@@ -86,8 +86,21 @@ function Home() {
             placeholder={t('filters.searchPlaceholder')}
             value={searchText}
             onChange={(event) => setSearchText(event.target.value)}
-            className="w-full pl-9"
+            className="w-full pr-8 pl-9"
           />
+          {searchText !== '' && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearchText('')
+                setFilters({ query: '' })
+              }}
+              aria-label={t('filters.clearSearch')}
+              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-sm p-1 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              <X size={14} aria-hidden="true" />
+            </button>
+          )}
         </div>
         <Button
           variant="secondary"

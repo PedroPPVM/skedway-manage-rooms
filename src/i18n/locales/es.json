@@ -63,6 +63,7 @@
     "resourcesPlaceholder": "Seleccionar recursos",
     "onlyAvailable": "Solo salas disponibles",
     "clear": "Limpiar filtros",
+    "clearSearch": "Limpiar búsqueda",
     "open": "Filtros",
     "title": "Filtros",
     "results": "{{count}} de {{total}} salas",
