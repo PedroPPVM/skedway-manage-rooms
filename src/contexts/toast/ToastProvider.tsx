@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { ToastViewport } from '../../components/ui/Toast'
+import { ToastViewport } from '../../components/ui/Toast/Toast'
 import { ToastContext } from './toast-context'
 import type { Toast, ToastContextValue, ToastVariant } from './toast-context'
 

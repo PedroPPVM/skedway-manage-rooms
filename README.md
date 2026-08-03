@@ -29,16 +29,18 @@ A aplicação sobe em `http://localhost:5173`. Não há backend para configurar:
 
 ### Scripts
 
-| Script                  | O que faz                                 |
-| ----------------------- | ----------------------------------------- |
-| `npm run dev`           | Servidor de desenvolvimento               |
-| `npm run build`         | Type-check (`tsc -b`) + build de produção |
-| `npm run preview`       | Serve o build localmente                  |
-| `npm test`              | Roda a suíte de testes (122 testes)       |
-| `npm run test:watch`    | Testes em modo watch                      |
-| `npm run test:coverage` | Testes com relatório de cobertura         |
-| `npm run lint`          | ESLint                                    |
-| `npm run format:check`  | Verifica a formatação (Prettier)          |
+| Script                    | O que faz                                 |
+| ------------------------- | ----------------------------------------- |
+| `npm run dev`             | Servidor de desenvolvimento               |
+| `npm run build`           | Type-check (`tsc -b`) + build de produção |
+| `npm run preview`         | Serve o build localmente                  |
+| `npm test`                | Roda a suíte de testes (122 testes)       |
+| `npm run test:watch`      | Testes em modo watch                      |
+| `npm run test:coverage`   | Testes com relatório de cobertura         |
+| `npm run lint`            | ESLint                                    |
+| `npm run format:check`    | Verifica a formatação (Prettier)          |
+| `npm run storybook`       | Storybook do design system (porta 6006)   |
+| `npm run build-storybook` | Build estático do Storybook               |
 
 ## Stack e bibliotecas
 
@@ -66,7 +68,7 @@ A aplicação sobe em `http://localhost:5173`. Não há backend para configurar:
 src/
 ├── components/
 │   ├── layout/      # AppLayout — apresentação pura, sem lógica de rota
-│   └── ui/          # design system: componentes reutilizáveis + testes co-locados
+│   └── ui/          # design system: uma pasta por componente (tsx + teste + stories)
 ├── contexts/        # theme, toast e user (estado global leve via Context)
 ├── hooks/           # hooks de dados (React Query) e utilitários
 ├── i18n/            # configuração, locales (pt-BR/en/es) e mapa de erros da API
@@ -80,7 +82,7 @@ src/
 └── utils/           # funções puras: regras de negócio, datas, filtros, agenda
 ```
 
-Convenções: o design system segue os **princípios de composição do Atomic Design sem a taxonomia de pastas** — `ui/` plano com teste ao lado, promovendo a pasta apenas quando o módulo tem múltiplos arquivos (padrão aplicado em `pages/`); `routes/` concentra o que orquestra navegação, `components/` só apresenta; se o projeto tivesse imagens estáticas, seriam estruturadas em `src/assets/`.
+Convenções: o design system segue os **princípios de composição do Atomic Design sem a taxonomia de pastas** — cada componente de `ui/` vive em sua própria pasta com o componente, o teste e a story (`Button/Button.tsx` + `Button.test.tsx` + `Button.stories.tsx`), sempre com arquivos nomeados (nunca `index.tsx`, preservando busca e stack traces); utilitários não-componentes ficam na raiz de `ui/`; `routes/` concentra o que orquestra navegação, `components/` só apresenta; se o projeto tivesse imagens estáticas, seriam estruturadas em `src/assets/`.
 
 ## Decisões técnicas
 
@@ -133,6 +135,12 @@ A internacionalização de verdade, que eu ainda não tinha enfrentado em um pro
 - **Integração com calendários** — Google Calendar e equivalentes de outras empresas — para a reserva aparecer automaticamente na agenda do usuário.
 - **Notificações por email/WhatsApp** sobre as reservas (confirmação, lembrete, cancelamento).
 - **Novos status de sala guiados por pesquisa com potenciais usuários** — por exemplo "em manutenção", que se encaixa no modelo atual como estado administrativo separado da ocupação temporal (que é calculada, nunca armazenada).
+
+## Storybook
+
+O design system é documentado com Storybook (`npm run storybook`): cada componente navegável com suas variantes e estados, **toolbars globais de tema (claro/escuro) e idioma (PT/EN/ES)** mapeadas para a infraestrutura real do app, e o addon de acessibilidade rodando o axe em cada story. O build do Storybook faz parte do CI — stories quebradas quebram o pipeline.
+
+**Storybook publicado:** [skedway-manage-rooms-storybook.vercel.app](https://skedway-manage-rooms-storybook.vercel.app/)
 
 ## Limitações conhecidas
 
