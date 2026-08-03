@@ -1,5 +1,5 @@
 import { CalendarDays } from 'lucide-react'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { DayPicker } from 'react-day-picker'
 import { enUS, es, ptBR } from 'react-day-picker/locale'
 import { useTranslation } from 'react-i18next'
@@ -36,10 +36,11 @@ export function DatePicker({
   const [draft, setDraft] = useState<string | null>(null)
   const [position, setPosition] = useState<{
     top: number
-    right: number
+    left: number
   } | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const fieldRef = useRef<HTMLDivElement>(null)
+  const popupRef = useRef<HTMLDivElement>(null)
   const inputId = useId()
 
   const selected = parseDateKey(value)
@@ -74,14 +75,26 @@ export function DatePicker({
     }
   }, [open])
 
+  useLayoutEffect(() => {
+    if (!open || !position) return
+
+    // clamps the popup inside the viewport once its width is known
+    const popup = popupRef.current
+    if (!popup) return
+
+    const width = popup.getBoundingClientRect().width
+    const maxLeft = window.innerWidth - width - 8
+    if (position.left > maxLeft) {
+      setPosition({ top: position.top, left: Math.max(8, maxLeft) })
+    }
+  }, [open, position])
+
   const toggleOpen = () => {
     if (!open) {
       const rect = fieldRef.current?.getBoundingClientRect()
       const desktop = window.matchMedia('(min-width: 640px)').matches
       setPosition(
-        desktop && rect
-          ? { top: rect.bottom + 4, right: window.innerWidth - rect.right }
-          : null,
+        desktop && rect ? { top: rect.bottom + 4, left: rect.left } : null,
       )
     }
     setOpen(!open)
@@ -134,11 +147,12 @@ export function DatePicker({
             className="fixed inset-0 z-10 bg-black/50 sm:hidden"
           />
           <div
+            ref={popupRef}
             style={position ?? undefined}
             className={cn(
-              'fixed z-20 rounded-md border border-border bg-surface-elevated p-2 shadow-lg',
+              'fixed z-20 w-fit rounded-md border border-border bg-surface-elevated p-2 shadow-lg',
               position === null &&
-                'inset-x-4 top-1/2 flex -translate-y-1/2 justify-center',
+                'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
             )}
           >
             <DayPicker

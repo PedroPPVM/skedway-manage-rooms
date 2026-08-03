@@ -37,7 +37,7 @@ function RoomDetails() {
       open
       onClose={close}
       title={room?.name ?? t('roomDetails.title')}
-      className="max-w-xl max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none max-sm:border-none"
+      className="max-w-xl max-sm:h-dvh max-sm:max-h-none max-sm:w-full max-sm:max-w-none max-sm:rounded-none max-sm:border-none sm:h-[min(85dvh,44rem)]"
     >
       {isPending && (
         <div role="status" className="flex flex-col gap-3">
