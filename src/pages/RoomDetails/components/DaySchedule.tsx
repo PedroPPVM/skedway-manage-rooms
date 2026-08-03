@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react'
+import { CalendarPlus, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -26,6 +26,7 @@ interface DayScheduleProps {
   roomName: string
   dateKey: string
   onDateKeyChange: (dateKey: string) => void
+  onReserveSlot: (startAt: string) => void
 }
 
 export function DaySchedule({
@@ -33,6 +34,7 @@ export function DaySchedule({
   roomName,
   dateKey,
   onDateKeyChange,
+  onReserveSlot,
 }: DayScheduleProps) {
   const { t, i18n } = useTranslation()
   const { user } = useUser()
@@ -138,6 +140,17 @@ export function DaySchedule({
                     className="ml-auto px-2 text-danger hover:bg-danger/10"
                   >
                     <Trash2 size={16} aria-hidden="true" />
+                  </Button>
+                )}
+                {slot.status === 'free' && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onReserveSlot(slot.startAt)}
+                    className="ml-auto px-2 text-primary hover:bg-primary/10"
+                  >
+                    <CalendarPlus size={16} aria-hidden="true" />
+                    {t('newReservation.reserve')}
                   </Button>
                 )}
               </li>

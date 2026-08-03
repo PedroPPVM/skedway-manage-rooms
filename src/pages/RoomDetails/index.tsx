@@ -94,6 +94,7 @@ function RoomDetails() {
                 roomName={room.name}
                 dateKey={dateKey}
                 onDateKeyChange={setDateKey}
+                onReserveSlot={openForm}
               />
               <Button onClick={() => openForm(null)} className="w-full">
                 <CalendarPlus size={16} aria-hidden="true" />
