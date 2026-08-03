@@ -12,7 +12,7 @@ export function RoomCard({ room }: RoomCardProps) {
   const available = room.status === 'available'
 
   return (
-    <Card className="flex h-full flex-col gap-3">
+    <Card className="flex h-full flex-col gap-3 transition-colors hover:border-primary">
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-semibold text-foreground">{room.name}</h3>
         <Badge variant={available ? 'success' : 'danger'}>

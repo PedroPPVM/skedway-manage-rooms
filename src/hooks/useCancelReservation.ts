@@ -15,6 +15,7 @@ export function useCancelReservation() {
       deleteReservation(id, userEmail),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.reservations.all })
+      queryClient.invalidateQueries({ queryKey: queryKeys.rooms.all })
     },
   })
 }

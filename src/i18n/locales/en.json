@@ -2,7 +2,10 @@
   "common": {
     "close": "Close",
     "closeNotification": "Close notification",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "loading": "Loading...",
+    "dateFormat": "mm/dd/yyyy",
+    "openCalendar": "Open calendar"
   },
   "theme": {
     "activateLight": "Switch to light theme",
@@ -67,6 +70,20 @@
       "title": "No rooms match the filters",
       "description": "Adjust the search or clear the filters to see more rooms."
     }
+  },
+  "roomDetails": {
+    "title": "Room details",
+    "date": "Date",
+    "schedule": "Day schedule",
+    "slot": {
+      "free": "Free",
+      "reserved": "Reserved"
+    },
+    "cancel": "Cancel reservation",
+    "cancelTitle": "Cancel reservation?",
+    "cancelDescription": "The {{time}} reservation in {{room}} will be canceled.",
+    "keep": "Keep reservation",
+    "canceled": "Reservation successfully canceled."
   },
   "language": {
     "label": "Language",

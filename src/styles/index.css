@@ -1,6 +1,8 @@
 /* Import order matters: tailwindcss first, tokens before theme. */
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
+@import 'react-day-picker/style.css';
 @import './tokens.css';
 @import './theme.css';
 @import './base.css';
+@import './day-picker.css';
