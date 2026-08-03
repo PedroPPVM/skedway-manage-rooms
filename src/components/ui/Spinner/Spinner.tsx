@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 const sizes = {
   sm: 16,

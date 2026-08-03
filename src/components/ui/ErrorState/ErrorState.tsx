@@ -1,6 +1,6 @@
 import { AlertTriangle, RotateCcw } from 'lucide-react'
-import { cn } from '../../utils'
-import { Button } from './Button'
+import { cn } from '../../../utils'
+import { Button } from '../Button/Button'
 
 interface ErrorStateProps {
   title: string

@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react'
 import { useId } from 'react'
 import type { ComponentPropsWithRef } from 'react'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 interface SelectProps extends ComponentPropsWithRef<'select'> {
   label?: string

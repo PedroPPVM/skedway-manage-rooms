@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import type { ComponentPropsWithRef } from 'react'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 interface InputProps extends ComponentPropsWithRef<'input'> {
   label?: string

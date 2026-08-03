@@ -6,7 +6,7 @@ import {
   ListboxOptions,
 } from '@headlessui/react'
 import { Check, ChevronDown } from 'lucide-react'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 export interface MultiSelectOption<T extends string> {
   value: T

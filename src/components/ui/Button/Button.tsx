@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from 'react'
-import { cn } from '../../utils'
-import { Spinner } from './Spinner'
+import { cn } from '../../../utils'
+import { Spinner } from '../Spinner/Spinner'
 
 const variants = {
   primary: 'bg-primary text-primary-foreground hover:bg-primary-hover',

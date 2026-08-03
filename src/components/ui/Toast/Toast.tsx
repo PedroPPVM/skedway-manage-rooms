@@ -1,7 +1,7 @@
 import { CheckCircle2, Info, X, XCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { Toast, ToastVariant } from '../../contexts/toast/toast-context'
-import { cn } from '../../utils'
+import type { Toast, ToastVariant } from '../../../contexts/toast/toast-context'
+import { cn } from '../../../utils'
 
 const variantIcons = {
   success: { icon: CheckCircle2, className: 'text-success' },

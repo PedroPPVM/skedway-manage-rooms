@@ -2,7 +2,7 @@ import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 const VISIBILITY_THRESHOLD_PX = 300
 

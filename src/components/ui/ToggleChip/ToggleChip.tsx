@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from 'react'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 interface ToggleChipProps extends ComponentPropsWithRef<'button'> {
   pressed: boolean

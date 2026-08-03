@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from 'react'
-import { cn } from '../../utils'
+import { cn } from '../../../utils'
 
 const variants = {
   success: 'bg-success/15 text-success',

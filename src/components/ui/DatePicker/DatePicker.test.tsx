@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
-import i18n from '../../i18n'
+import i18n from '../../../i18n'
 import { DatePicker } from './DatePicker'
 
 function Demo() {

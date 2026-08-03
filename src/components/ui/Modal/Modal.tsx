@@ -2,9 +2,9 @@ import { X } from 'lucide-react'
 import { useId } from 'react'
 import type { PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { cn } from '../../utils'
-import { Button } from './Button'
-import { useNativeDialog } from './use-native-dialog'
+import { cn } from '../../../utils'
+import { Button } from '../Button/Button'
+import { useNativeDialog } from '../use-native-dialog'
 
 interface ModalProps extends PropsWithChildren {
   open: boolean
