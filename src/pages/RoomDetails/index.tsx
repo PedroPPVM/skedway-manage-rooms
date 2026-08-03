@@ -76,7 +76,7 @@ function RoomDetails() {
             </div>
           )}
 
-          <DaySchedule roomId={room.id} />
+          <DaySchedule roomId={room.id} roomName={room.name} />
         </div>
       )}
     </Modal>

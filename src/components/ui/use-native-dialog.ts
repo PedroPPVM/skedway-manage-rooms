@@ -15,9 +15,11 @@ export function useNativeDialog(open: boolean, onClose: () => void) {
   useEffect(() => {
     if (!open) return
 
+    // restoring the previous value keeps stacked dialogs locked
+    const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     return () => {
-      document.body.style.overflow = ''
+      document.body.style.overflow = previous
     }
   }, [open])
 
