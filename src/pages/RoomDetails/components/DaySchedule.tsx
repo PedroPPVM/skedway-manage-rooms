@@ -1,7 +1,13 @@
 import { Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Badge, Button, Input, Modal, Skeleton } from '../../../components/ui'
+import {
+  Badge,
+  Button,
+  DatePicker,
+  Modal,
+  Skeleton,
+} from '../../../components/ui'
 import { useToast } from '../../../contexts/toast'
 import { useUser } from '../../../contexts/user'
 import { useCancelReservation, useReservations } from '../../../hooks'
@@ -77,14 +83,10 @@ export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
         <h3 className="text-base font-semibold text-foreground">
           {t('roomDetails.schedule')}
         </h3>
-        <Input
-          type="date"
+        <DatePicker
           label={t('roomDetails.date')}
           value={dateKey}
-          onChange={(event) => {
-            if (event.target.value) setDateKey(event.target.value)
-          }}
-          className="w-40"
+          onChange={setDateKey}
         />
       </div>
 
