@@ -19,19 +19,24 @@ import {
   formatTime,
   isReservationOwner,
   parseDateKey,
-  toDateKey,
 } from '../../../utils'
 
 interface DayScheduleProps {
   roomId: string
   roomName: string
+  dateKey: string
+  onDateKeyChange: (dateKey: string) => void
 }
 
-export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
+export function DaySchedule({
+  roomId,
+  roomName,
+  dateKey,
+  onDateKeyChange,
+}: DayScheduleProps) {
   const { t, i18n } = useTranslation()
   const { user } = useUser()
   const toast = useToast()
-  const [dateKey, setDateKey] = useState(() => toDateKey(new Date()))
   const [cancelTarget, setCancelTarget] = useState<Reservation | null>(null)
 
   const { data: reservations, isPending } = useReservations({
@@ -86,7 +91,7 @@ export function DaySchedule({ roomId, roomName }: DayScheduleProps) {
         <DatePicker
           label={t('roomDetails.date')}
           value={dateKey}
-          onChange={setDateKey}
+          onChange={onDateKeyChange}
         />
       </div>
 
