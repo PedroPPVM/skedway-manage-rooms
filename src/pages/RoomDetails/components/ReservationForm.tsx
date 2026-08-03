@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'lucide-react'
 import type { TFunction } from 'i18next'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
@@ -59,6 +59,12 @@ export function ReservationForm({
   const { user } = useUser()
   const toast = useToast()
   const createReservation = useCreateReservation()
+  const formRef = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    // the trigger unmounts on the view switch, so focus moves to the form
+    formRef.current?.querySelector('input')?.focus()
+  }, [])
 
   const schema = useMemo(() => createReservationSchema(t), [t])
   const {
@@ -152,7 +158,12 @@ export function ReservationForm({
   })
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
+    <form
+      ref={formRef}
+      onSubmit={onSubmit}
+      noValidate
+      className="flex flex-col gap-4"
+    >
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-base font-semibold text-foreground">
           {t('newReservation.title')}

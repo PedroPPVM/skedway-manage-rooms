@@ -137,7 +137,7 @@ export function DaySchedule({
                     size="sm"
                     onClick={() => setCancelTarget(reservation)}
                     aria-label={t('roomDetails.cancel')}
-                    className="ml-auto px-2 text-danger hover:bg-danger/10"
+                    className="ml-auto px-2 text-danger hover:bg-danger/10 max-sm:h-10"
                   >
                     <Trash2 size={16} aria-hidden="true" />
                   </Button>
@@ -147,7 +147,7 @@ export function DaySchedule({
                     variant="ghost"
                     size="sm"
                     onClick={() => onReserveSlot(slot.startAt)}
-                    className="ml-auto px-2 text-primary hover:bg-primary/10"
+                    className="ml-auto px-2 text-primary hover:bg-primary/10 max-sm:h-10"
                   >
                     <CalendarPlus size={16} aria-hidden="true" />
                     {t('newReservation.reserve')}
