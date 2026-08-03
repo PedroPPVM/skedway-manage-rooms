@@ -1,7 +1,9 @@
 import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 import { Route, Routes, useSearchParams } from 'react-router-dom'
 import { renderWithProviders } from '../../test/render'
+import { server } from '../../test/server'
 import Home from '../Home'
 import RoomDetails from '.'
 
@@ -104,6 +106,92 @@ describe('RoomDetails', () => {
 
     const freeRow = scheduleRow(dialog, '09:00')
     expect(within(freeRow).getByText('Livre')).toBeInTheDocument()
+  })
+
+  it('creates a reservation from a free slot with prefilled values', async () => {
+    fakeClockAt(9, 0)
+    const user = userEvent.setup()
+    renderApp(['/rooms/1'])
+
+    const dialog = openDialog()
+    await within(dialog).findByText('09:00', undefined, { timeout: 3000 })
+    const freeRow = scheduleRow(dialog, '09:00')
+
+    await user.click(within(freeRow).getByRole('button', { name: 'Reservar' }))
+
+    expect(
+      within(dialog).getByRole('heading', { name: 'Nova reserva' }),
+    ).toBeInTheDocument()
+    expect(within(dialog).getByLabelText('Nome do responsável')).toHaveValue(
+      'Pedro Paulo',
+    )
+    expect(within(dialog).getByLabelText('Hora de início')).toHaveValue(
+      todayAtIso(9),
+    )
+
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Criar reserva' }),
+    )
+
+    expect(
+      await screen.findByText('Reserva criada com sucesso.', undefined, {
+        timeout: 3000,
+      }),
+    ).toBeInTheDocument()
+
+    await waitFor(
+      () => {
+        const row = scheduleRow(dialog, '09:00')
+        expect(within(row).getByText('Reservado')).toBeInTheDocument()
+        expect(within(row).getByText('Pedro Paulo')).toBeInTheDocument()
+        expect(
+          within(row).getByRole('button', { name: 'Cancelar reserva' }),
+        ).toBeInTheDocument()
+      },
+      { timeout: 3000 },
+    )
+  })
+
+  it('keeps the form and shows a clear message on server conflict', async () => {
+    fakeClockAt(9, 0)
+    server.use(
+      http.post(
+        '/api/reservations',
+        () =>
+          HttpResponse.json(
+            { code: 'TIME_CONFLICT', message: 'conflict' },
+            { status: 409 },
+          ),
+        { once: true },
+      ),
+    )
+    const user = userEvent.setup()
+    renderApp(['/rooms/1'])
+
+    const dialog = openDialog()
+    await within(dialog).findByText('09:00', undefined, { timeout: 3000 })
+
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Nova reserva' }),
+    )
+    await user.selectOptions(
+      within(dialog).getByLabelText('Hora de início'),
+      todayAtIso(11),
+    )
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Criar reserva' }),
+    )
+
+    expect(
+      await screen.findByText(
+        'Esta sala já possui uma reserva neste horário.',
+        undefined,
+        { timeout: 3000 },
+      ),
+    ).toBeInTheDocument()
+    expect(
+      within(dialog).getByRole('heading', { name: 'Nova reserva' }),
+    ).toBeInTheDocument()
   })
 
   it('cancels an owned reservation after confirmation', async () => {
